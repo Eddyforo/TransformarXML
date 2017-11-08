@@ -33,8 +33,13 @@
             this.tabXML_XSD = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btnValidarXSLT = new System.Windows.Forms.Button();
+            this.richTextValidaXslt = new System.Windows.Forms.RichTextBox();
             this.btnTransformar = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.richTextTransformacion = new System.Windows.Forms.RichTextBox();
+            this.webBrowser = new System.Windows.Forms.WebBrowser();
+            this.rbHTML = new System.Windows.Forms.RadioButton();
             this.rbText = new System.Windows.Forms.RadioButton();
             this.rbXML = new System.Windows.Forms.RadioButton();
             this.archivoTransformado = new CustomXmlViewer.ucXmlRichTextBox();
@@ -49,18 +54,12 @@
             this.txtXMLFuente = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
-            this.xmlBrowserXSLT = new XmlRender.XmlBrowser();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.txtResultValidacion = new System.Windows.Forms.RichTextBox();
             this.btnValidarXSD = new System.Windows.Forms.Button();
             this.btnBuscarXSD = new System.Windows.Forms.Button();
             this.txtXSD = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.rbHTML = new System.Windows.Forms.RadioButton();
             this.tabXML_XSD.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -74,7 +73,7 @@
             // 
             this.tabXML_XSD.Controls.Add(this.tabPage1);
             this.tabXML_XSD.Controls.Add(this.tabPage2);
-            this.tabXML_XSD.Location = new System.Drawing.Point(-2, -2);
+            this.tabXML_XSD.Location = new System.Drawing.Point(-3, -2);
             this.tabXML_XSD.Name = "tabXML_XSD";
             this.tabXML_XSD.SelectedIndex = 0;
             this.tabXML_XSD.Size = new System.Drawing.Size(1341, 830);
@@ -94,6 +93,8 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.btnValidarXSLT);
+            this.groupBox2.Controls.Add(this.richTextValidaXslt);
             this.groupBox2.Controls.Add(this.btnTransformar);
             this.groupBox2.Controls.Add(this.groupBox3);
             this.groupBox2.Controls.Add(this.btnGuardarXSLT);
@@ -108,20 +109,43 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Editor XSLT";
             // 
+            // btnValidarXSLT
+            // 
+            this.btnValidarXSLT.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnValidarXSLT.Image = global::HerramientaXML.Properties.Resources.Symbols23_1;
+            this.btnValidarXSLT.Location = new System.Drawing.Point(9, 377);
+            this.btnValidarXSLT.Name = "btnValidarXSLT";
+            this.btnValidarXSLT.Size = new System.Drawing.Size(24, 23);
+            this.btnValidarXSLT.TabIndex = 9;
+            this.btnValidarXSLT.UseVisualStyleBackColor = true;
+            this.btnValidarXSLT.Click += new System.EventHandler(this.btnValidarXSLT_Click);
+            // 
+            // richTextValidaXslt
+            // 
+            this.richTextValidaXslt.Font = new System.Drawing.Font("Consolas", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.richTextValidaXslt.Location = new System.Drawing.Point(39, 373);
+            this.richTextValidaXslt.Name = "richTextValidaXslt";
+            this.richTextValidaXslt.Size = new System.Drawing.Size(743, 31);
+            this.richTextValidaXslt.TabIndex = 8;
+            this.richTextValidaXslt.Text = "";
+            // 
             // btnTransformar
             // 
             this.btnTransformar.Image = global::HerramientaXML.Properties.Resources.UpdateTableOfContents_16x16;
             this.btnTransformar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnTransformar.Location = new System.Drawing.Point(636, 21);
+            this.btnTransformar.Location = new System.Drawing.Point(602, 21);
             this.btnTransformar.Name = "btnTransformar";
-            this.btnTransformar.Size = new System.Drawing.Size(100, 23);
+            this.btnTransformar.Size = new System.Drawing.Size(85, 23);
             this.btnTransformar.TabIndex = 7;
             this.btnTransformar.Text = "Transformar";
+            this.btnTransformar.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnTransformar.UseVisualStyleBackColor = true;
             this.btnTransformar.Click += new System.EventHandler(this.btnTransformar_Click);
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.richTextTransformacion);
+            this.groupBox3.Controls.Add(this.webBrowser);
             this.groupBox3.Controls.Add(this.rbHTML);
             this.groupBox3.Controls.Add(this.rbText);
             this.groupBox3.Controls.Add(this.rbXML);
@@ -132,6 +156,35 @@
             this.groupBox3.TabIndex = 6;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Resultado Transformación";
+            // 
+            // richTextTransformacion
+            // 
+            this.richTextTransformacion.Location = new System.Drawing.Point(6, 38);
+            this.richTextTransformacion.Name = "richTextTransformacion";
+            this.richTextTransformacion.Size = new System.Drawing.Size(763, 330);
+            this.richTextTransformacion.TabIndex = 9;
+            this.richTextTransformacion.Text = "";
+            // 
+            // webBrowser
+            // 
+            this.webBrowser.Location = new System.Drawing.Point(6, 38);
+            this.webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowser.Name = "webBrowser";
+            this.webBrowser.Size = new System.Drawing.Size(763, 330);
+            this.webBrowser.TabIndex = 8;
+            this.webBrowser.Visible = false;
+            // 
+            // rbHTML
+            // 
+            this.rbHTML.AutoSize = true;
+            this.rbHTML.Location = new System.Drawing.Point(117, 15);
+            this.rbHTML.Name = "rbHTML";
+            this.rbHTML.Size = new System.Drawing.Size(55, 17);
+            this.rbHTML.TabIndex = 7;
+            this.rbHTML.TabStop = true;
+            this.rbHTML.Text = "HTML";
+            this.rbHTML.UseVisualStyleBackColor = true;
+            this.rbHTML.CheckedChanged += new System.EventHandler(this.rbHTML_CheckedChanged);
             // 
             // rbText
             // 
@@ -155,6 +208,7 @@
             this.rbXML.TabIndex = 5;
             this.rbXML.Text = "XML";
             this.rbXML.UseVisualStyleBackColor = true;
+            this.rbXML.CheckedChanged += new System.EventHandler(this.rbXML_CheckedChanged);
             // 
             // archivoTransformado
             // 
@@ -173,11 +227,12 @@
             // 
             this.btnGuardarXSLT.Image = global::HerramientaXML.Properties.Resources.Save_16x16;
             this.btnGuardarXSLT.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnGuardarXSLT.Location = new System.Drawing.Point(530, 21);
+            this.btnGuardarXSLT.Location = new System.Drawing.Point(512, 21);
             this.btnGuardarXSLT.Name = "btnGuardarXSLT";
-            this.btnGuardarXSLT.Size = new System.Drawing.Size(100, 23);
+            this.btnGuardarXSLT.Size = new System.Drawing.Size(85, 23);
             this.btnGuardarXSLT.TabIndex = 5;
             this.btnGuardarXSLT.Text = "Guardar";
+            this.btnGuardarXSLT.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnGuardarXSLT.UseVisualStyleBackColor = true;
             this.btnGuardarXSLT.Click += new System.EventHandler(this.btnGuardarXSLT_Click);
             // 
@@ -187,9 +242,10 @@
             this.btnBuscarXSLT.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnBuscarXSLT.Location = new System.Drawing.Point(422, 21);
             this.btnBuscarXSLT.Name = "btnBuscarXSLT";
-            this.btnBuscarXSLT.Size = new System.Drawing.Size(102, 23);
+            this.btnBuscarXSLT.Size = new System.Drawing.Size(85, 23);
             this.btnBuscarXSLT.TabIndex = 4;
             this.btnBuscarXSLT.Text = "Examinar...";
+            this.btnBuscarXSLT.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnBuscarXSLT.UseVisualStyleBackColor = true;
             this.btnBuscarXSLT.Click += new System.EventHandler(this.btnBuscarXSLT_Click);
             // 
@@ -201,7 +257,7 @@
             this.ucXmlRichTextBox1.Font = new System.Drawing.Font("Consolas", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ucXmlRichTextBox1.Location = new System.Drawing.Point(9, 49);
             this.ucXmlRichTextBox1.Name = "ucXmlRichTextBox1";
-            this.ucXmlRichTextBox1.Size = new System.Drawing.Size(773, 355);
+            this.ucXmlRichTextBox1.Size = new System.Drawing.Size(773, 318);
             this.ucXmlRichTextBox1.TabIndex = 3;
             this.ucXmlRichTextBox1.Text = "";
             this.ucXmlRichTextBox1.Xml = "";
@@ -252,9 +308,10 @@
             this.btnBuscarFuenteXML.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnBuscarFuenteXML.Location = new System.Drawing.Point(416, 21);
             this.btnBuscarFuenteXML.Name = "btnBuscarFuenteXML";
-            this.btnBuscarFuenteXML.Size = new System.Drawing.Size(102, 23);
+            this.btnBuscarFuenteXML.Size = new System.Drawing.Size(85, 23);
             this.btnBuscarFuenteXML.TabIndex = 2;
             this.btnBuscarFuenteXML.Text = "Examinar...";
+            this.btnBuscarFuenteXML.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnBuscarFuenteXML.UseVisualStyleBackColor = true;
             this.btnBuscarFuenteXML.Click += new System.EventHandler(this.btnBuscarFuenteXML_Click);
             // 
@@ -276,8 +333,6 @@
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.webBrowser1);
-            this.tabPage2.Controls.Add(this.xmlBrowserXSLT);
             this.tabPage2.Controls.Add(this.groupBox4);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
@@ -287,25 +342,6 @@
             this.tabPage2.Text = "Validador XSD";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // webBrowser1
-            // 
-            this.webBrowser1.Location = new System.Drawing.Point(23, 248);
-            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowser1.Name = "webBrowser1";
-            this.webBrowser1.Size = new System.Drawing.Size(250, 250);
-            this.webBrowser1.TabIndex = 6;
-            // 
-            // xmlBrowserXSLT
-            // 
-            this.xmlBrowserXSLT.Location = new System.Drawing.Point(10, 34);
-            this.xmlBrowserXSLT.MinimumSize = new System.Drawing.Size(20, 20);
-            this.xmlBrowserXSLT.Name = "xmlBrowserXSLT";
-            this.xmlBrowserXSLT.Size = new System.Drawing.Size(263, 106);
-            this.xmlBrowserXSLT.TabIndex = 5;
-            this.xmlBrowserXSLT.XmlDocument = null;
-            this.xmlBrowserXSLT.XmlDocumentTransformType = XmlRender.XmlBrowser.XslTransformType.XSL;
-            this.xmlBrowserXSLT.XmlText = "";
-            // 
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.txtResultValidacion);
@@ -313,7 +349,7 @@
             this.groupBox4.Controls.Add(this.btnBuscarXSD);
             this.groupBox4.Controls.Add(this.txtXSD);
             this.groupBox4.Controls.Add(this.label3);
-            this.groupBox4.Location = new System.Drawing.Point(317, 85);
+            this.groupBox4.Location = new System.Drawing.Point(315, 85);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(694, 413);
             this.groupBox4.TabIndex = 0;
@@ -369,25 +405,11 @@
             this.label3.TabIndex = 0;
             this.label3.Text = "Ruta archivo XSD:";
             // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.FileName = "openFileDialog1";
-            // 
-            // rbHTML
-            // 
-            this.rbHTML.AutoSize = true;
-            this.rbHTML.Location = new System.Drawing.Point(118, 15);
-            this.rbHTML.Name = "rbHTML";
-            this.rbHTML.Size = new System.Drawing.Size(55, 17);
-            this.rbHTML.TabIndex = 7;
-            this.rbHTML.TabStop = true;
-            this.rbHTML.Text = "HTML";
-            this.rbHTML.UseVisualStyleBackColor = true;
-            // 
             // frmEditorXML
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1337, 828);
             this.Controls.Add(this.tabXML_XSD);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -418,7 +440,6 @@
         private System.Windows.Forms.Button btnBuscarFuenteXML;
         private System.Windows.Forms.TextBox txtXMLFuente;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private XmlRender.XmlBrowser xmlBrowser;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.TextBox txtXSLT;
@@ -426,7 +447,6 @@
         private CustomXmlViewer.ucXmlRichTextBox ucXmlRichTextBox1;
         private System.Windows.Forms.Button btnBuscarXSLT;
         private System.Windows.Forms.Button btnGuardarXSLT;
-        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Button btnTransformar;
         private System.Windows.Forms.GroupBox groupBox4;
@@ -436,12 +456,13 @@
         private System.Windows.Forms.Button btnValidarXSD;
         private System.Windows.Forms.RichTextBox txtResultValidacion;
         private CustomXmlViewer.ucXmlRichTextBox archivoTransformado;
-        private XmlRender.XmlBrowser xmlBrowserXSLT;
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
-        private System.Windows.Forms.WebBrowser webBrowser1;
         private System.Windows.Forms.RadioButton rbText;
         private System.Windows.Forms.RadioButton rbXML;
         private System.Windows.Forms.RadioButton rbHTML;
+        private System.Windows.Forms.WebBrowser webBrowser;
+        private System.Windows.Forms.RichTextBox richTextTransformacion;
+        private System.Windows.Forms.RichTextBox richTextValidaXslt;
+        private System.Windows.Forms.Button btnValidarXSLT;
     }
 }
 

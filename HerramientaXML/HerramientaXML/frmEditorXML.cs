@@ -72,7 +72,7 @@ namespace HerramientaXML
         {
             //Llama al diálogo que buscará el archivo
             ofdConfiguracion.DefaultExt = "xslt";
-            ofdConfiguracion.Filter = "Archivos XSLT|*.xslt";
+            ofdConfiguracion.Filter = "Archivos XSLT|*.xslt;*.xsl";
 
             ofdConfiguracion.FilterIndex = 1;
 
@@ -135,36 +135,29 @@ namespace HerramientaXML
                         XslCompiledTransform xslt = new XslCompiledTransform();
                         xslt.Load(txtXSLT.Text);
 
-                        // Create the writer.                   
-                        //XmlDocument xmlfuente = new XmlDocument();
-
                         XPathDocument xmlDoc = new XPathDocument(txtXMLFuente.Text);
                         XPathNavigator nav = xmlDoc.CreateNavigator();
-
-                        //XmlWriterSettings settings = new XmlWriterSettings();
-                        //settings.Indent = true;
-                        //settings.IndentChars = "\t";
-                        //settings.ConformanceLevel = ConformanceLevel.Auto;
-                        //XmlWriter writer = XmlWriter.Create("TransformacionXSLT.xml", settings);
 
                         StringWriter sWritter = new StringWriter();
                         XmlTextWriter myWriter = new XmlTextWriter(sWritter);
 
                         // Execute the transformation.
-                        xslt.Transform(nav,null, myWriter);
-                        //writer.Close();
-                        // sWritter.
-                        // xmlfuente.Load("TransformacionXSLT.xml");
-                        archivoTransformado.Text = sWritter.ToString();
+                        xslt.Transform(nav, null, myWriter);
 
+                        richTextTransformacion.Text = sWritter.ToString();
+
+                        richTextTransformacion.Visible = true;
+                        webBrowser.Visible = false;
+                        archivoTransformado.Visible = false;
                         rbText.Checked = true;
+                        rbXML.Checked = false;
+                        rbHTML.Checked = false;
                     }
                     catch (Exception ex)
                     {
                         MessageBox.Show("Ha ocurrido un error al realizar la transformación. " + ex.Message, "Transformación XSLT", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        
+
                     }
-                   
                 }
             }
         }
@@ -193,7 +186,7 @@ namespace HerramientaXML
         private void btnValidarXSD_Click(object sender, EventArgs e)
         {
             ValidationEventHandler eventHandler = new ValidationEventHandler(Settings_ValidationEventHandler);
-            if (string.IsNullOrEmpty(archivoTransformado.Xml))
+            if (string.IsNullOrEmpty(richTextTransformacion.Text))
             {
                 MessageBox.Show("No se ha realizado la transformacion XSLT", "Validación XSD", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -225,8 +218,7 @@ namespace HerramientaXML
                         xsdSettings.ValidationEventHandler += Settings_ValidationEventHandler;
                         XmlDocument document = new XmlDocument();
 
-                        using (XmlReader schemareader = XmlReader.Create(archivoTransformado.Xml, xsdSettings))
-                        //using (XmlReader schemareader = XmlReader.Create("D:/Proyectos/Documentos/FE/Colombia/XSLT/Ejemplo XML Factura.xml", xsdSettings))
+                        using (XmlReader schemareader = XmlReader.Create(new StringReader(archivoTransformado.Xml), xsdSettings))
                         {
                             document.Load(schemareader);
                             document.Validate(eventHandler);
@@ -243,7 +235,7 @@ namespace HerramientaXML
                         }
                         if (sErrorSchema.Length <= 0 && sAdvertenciaSchema.Length <= 0)
                         {
-                            txtResultValidacion.Text = "No se presentaron errores en la validación!!!";
+                            txtResultValidacion.Text = "No se presentaron errores en la validación!";
                         }
                     }
                     catch (Exception ex)
@@ -274,27 +266,57 @@ namespace HerramientaXML
             }
 
         }
-        #endregion
 
         private void radioButton2_CheckedChanged(object sender, EventArgs e)
         {
             cambiarFormato();
         }
 
+        private void rbXML_CheckedChanged(object sender, EventArgs e)
+        {
+            cambiarFormato();
+        }
+
+        private void rbHTML_CheckedChanged(object sender, EventArgs e)
+        {
+            cambiarFormato();
+        }
+
+        private void btnValidarXSLT_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                XPathDocument xPathDoc = new XPathDocument(new StringReader(ucXmlRichTextBox1.Text));
+                richTextValidaXslt.Text = "Sintaxis correcta";
+            }
+            catch (XmlException xmlEx)
+            {
+                richTextValidaXslt.Text = xmlEx.Message;
+            }
+        }
+
+        #endregion
+
+        #region Métodos
+
         public void cambiarFormato()
         {
             string sData = string.Empty;
 
+            //Obtenemos el texto de la transformacion
+            sData = richTextTransformacion.Text;
+
+            //Formato Texto
             if (rbText.Checked)
             {
-                sData = archivoTransformado.Text;
-
-                archivoTransformado.Text = sData;
-                archivoTransformado.SelectionColor = Color.Black;
+                richTextTransformacion.Text = sData;
+                richTextTransformacion.Visible = true;
+                archivoTransformado.Visible = false;
+                webBrowser.Visible = false;
             }
-            else
+            //Formato Xml
+            else if (rbXML.Checked)
             {
-                sData = archivoTransformado.Text;
                 try
                 {
                     archivoTransformado.Xml = sData;
@@ -302,10 +324,36 @@ namespace HerramientaXML
                 catch (Exception)
                 {
                     archivoTransformado.Text = sData;
-                    archivoTransformado.SelectionColor = Color.Black;
                 }
-                
+                richTextTransformacion.Visible = false;
+                archivoTransformado.Visible = true;
+                webBrowser.Visible = false;
+            }
+            //Formato Html
+            else
+            {
+                try
+                {
+                    webBrowser.Navigate("about:blank");
+                    if (webBrowser.Document != null)
+                    {
+                        webBrowser.Document.Write(string.Empty);
+                    }
+                    webBrowser.DocumentText = sData;
+                }
+                catch (Exception ex)
+                {
+                    richTextTransformacion.Text = sData;
+                    richTextTransformacion.Visible = true;
+                    archivoTransformado.Visible = false;
+                    webBrowser.Visible = false;
+                }
+                richTextTransformacion.Visible = false;
+                archivoTransformado.Visible = false;
+                webBrowser.Visible = true;
             }
         }
+
+        #endregion
     }
 }
