@@ -24,6 +24,7 @@ namespace HerramientaXML
         OpenFileDialog ofdConfiguracion = new OpenFileDialog();
         StringBuilder sErrorSchema = new StringBuilder();
         StringBuilder sAdvertenciaSchema = new StringBuilder();
+        bool bXsltEdited = false;
 
         #endregion
 
@@ -81,6 +82,7 @@ namespace HerramientaXML
             ofdConfiguracion.RestoreDirectory = true;
 
             DialogResult Result = ofdConfiguracion.ShowDialog();
+            
             if (Result == DialogResult.OK)
             {
                 try
@@ -89,6 +91,8 @@ namespace HerramientaXML
                     txtXSLT.Text = ofdConfiguracion.FileName;
 
                     ucXmlRichTextBox1.Xml = System.IO.File.ReadAllText(txtXSLT.Text);
+                    ChangeButtonSaveIcon(true);
+                    bXsltEdited = false;
                 }
                 catch (Exception)
                 {
@@ -113,6 +117,8 @@ namespace HerramientaXML
             {
                 // Save the contents of the RichTextBox into the file.
                 ucXmlRichTextBox1.SaveFile(saveFile1.FileName, RichTextBoxStreamType.PlainText);
+                ChangeButtonSaveIcon(true);
+                bXsltEdited = false;
             }
         }
 
@@ -155,7 +161,7 @@ namespace HerramientaXML
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("Ha ocurrido un error al realizar la transformación. " + ex.Message, "Transformación XSLT", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Ha ocurrido un error al realizar la transformación. \nDetalle del error: " + ex.Message, "Transformación XSLT", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                     }
                 }
@@ -295,6 +301,23 @@ namespace HerramientaXML
             }
         }
 
+        private void ucXmlRichTextBox1_TextChanged(object sender, EventArgs e)
+        {
+            ChangeButtonSaveIcon(false);
+            bXsltEdited = true;
+        }
+
+        private void frmEditorXML_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (bXsltEdited)
+            {
+                DialogResult resp = MessageBox.Show("Desea guardar los cambios hechos al Xslt?", "Guardar archivo", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
+                if ( resp == DialogResult.Yes)
+                {
+                    btnGuardarXSLT_Click(sender, null);
+                }
+            }
+        }
         #endregion
 
         #region Métodos
@@ -354,6 +377,25 @@ namespace HerramientaXML
             }
         }
 
+        private void ChangeButtonSaveIcon(bool pbSinCambios)
+        {
+            if (!pbSinCambios)
+            {
+                btnGuardarXSLT.Image = HerramientaXML.Properties.Resources.save_alert_16;
+
+                btnGuardarXSLT.ImageAlign = ContentAlignment.MiddleLeft;
+
+                btnGuardarXSLT.TextAlign = ContentAlignment.MiddleRight;
+            }
+            else
+            {
+                btnGuardarXSLT.Image = HerramientaXML.Properties.Resources.Save_16x16;
+
+                btnGuardarXSLT.ImageAlign = ContentAlignment.MiddleLeft;
+
+                btnGuardarXSLT.TextAlign = ContentAlignment.MiddleRight;
+            }
+        }
         #endregion
     }
 }

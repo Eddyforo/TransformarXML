@@ -261,6 +261,7 @@
             this.ucXmlRichTextBox1.TabIndex = 3;
             this.ucXmlRichTextBox1.Text = "";
             this.ucXmlRichTextBox1.Xml = "";
+            this.ucXmlRichTextBox1.TextChanged += new System.EventHandler(this.ucXmlRichTextBox1_TextChanged);
             // 
             // txtXSLT
             // 
@@ -416,6 +417,7 @@
             this.Name = "frmEditorXML";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Herramienta XML";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmEditorXML_FormClosing);
             this.tabXML_XSD.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
